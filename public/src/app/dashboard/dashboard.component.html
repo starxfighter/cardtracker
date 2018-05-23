@@ -1,0 +1,19 @@
+<h1>Card Tracker Dashboard</h1>
+<div class='events'>
+  <h3>Upcoming Events</h3>
+  <table>
+    <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Event</th>
+    </tr>
+    <tr *ngFor='let u of uevents;let i = index'>
+      <td>{{u.name}}</td>
+      <td>{{u.date}}</td>
+      <td>{{u.event}}</td>
+    </tr>
+  </table>
+</div>
+<div class='nav'>
+  <button [routerLink]="['/home/list']">Continue</button>
+</div>

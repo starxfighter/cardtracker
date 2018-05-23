@@ -1,0 +1,37 @@
+<h3>Register</h3>
+<div class='form'>
+  <form (submit) = 'registerUser()'>
+    <label>Name: <input type="text" name="newuser.name" required minlength='5'[(ngModel)]="newuser.name" #name="ngModel"/></label> {{ name.errors | json }}
+    <label>Street Address: <input type="text" name="newuser.street_addr" required minlength='5'[(ngModel)]="newuser.street_addr" #street_addr="ngModel"/></label> {{ street_addr.errors | json }} 
+    <label>City: <input type="text" name="newuser.city" required minlength='5'[(ngModel)]="newuser.city" #city="ngModel"/></label> {{ city.errors | json }}  
+    <label>State: <input type="text" name="newuser.state" required minlength='2' maxlength='2' [(ngModel)]="newuser.state" #state="ngModel"/></label> {{ state.errors | json }} 
+    <label>Postal Code: <input type="text" name="newuser.postal_code" required minlength='5'[(ngModel)]="newuser.postal_code" #postal_code="ngModel"/></label> {{ postal_code.errors | json }}
+    <label>Country: <input type="text" name="newuser.conuntry" required minlength='3'[(ngModel)]="newuser.country" #country="ngModel"/></label> {{ country.errors | json }}    
+    <label>E-Mail: <input type="email" name="newuser.email" required minlength='8'[(ngModel)]="newuser.email" #email="ngModel"/></label> {{ email.errors | json }} 
+    <label>Password: <input type="password" name="newuser.password" required minlength='8'[(ngModel)]="newuser.password" #password="ngModel"/></label> {{ password.errors | json }}   
+    <label>Password Confirmation: <input type="password" name="newuser.pass_conf" required minlength='8'[(ngModel)]="newuser.pass_conf" #pass_conf="ngModel"/></label> {{ pass_conf.errors | json }}  
+    <h3 *ngIf="!name.errors">
+      <h3 *ngIf="!street_addr.errors">
+        <h3 *ngIf="!city.errors">
+          <h3 *ngIf="!state.errors">
+            <h3 *ngIf="!postal_code.errors">
+              <h3 *ngIf="!country.errors">
+                <h3 *ngIf="!email.errors">
+                  <h3 *ngIf="!password.errors">
+                    <h3 *ngIf="!pass_conf.errors">
+                      <input  type='submit' value='Submit'/>
+                    </h3>
+                  </h3> 
+                </h3> 
+              </h3> 
+            </h3> 
+          </h3> 
+        </h3> 
+      </h3> 
+    </h3> 
+    <button [routerLink]="['/home/welcome']">Cancel</button>
+  </form>
+</div>
+<div *ngFor='let e of message'>
+  {{e}}
+</div>

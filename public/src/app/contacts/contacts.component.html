@@ -1,0 +1,23 @@
+<div class='results'>  
+  <table>
+    <tr>
+        <th>Name</th>
+        <th>Contact Actions</th>
+        <th>Special Features</th>
+      </tr>
+    <tr *ngFor='let c of contacts;let i = index'>
+      <td>{{u.name}}</td>
+      <td>
+        <button [routerLink]="['/home/list/edit']">Register</button>
+        <button (click)='destroyUser(u._id)'>Delete</button>
+      </td>
+      <td>
+          <button [routerLink]="['/home/list/tracking']">Card Sent/Received</button>
+          <button (click)='printLabel(u._id)'>Print Labels</button>
+        </td>
+    </tr>
+  </table>
+</div>
+<div *ngFor='let e of message'>
+  {{e}}
+</div>

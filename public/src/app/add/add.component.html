@@ -1,0 +1,33 @@
+<h3>Add New Contact:</h3>
+<div class='form'>
+  <form (submit) = 'addNewContact()'>
+    <label>Mister First Name: <input type="text" name="newcontact.mrfname" minlength='2'[(ngModel)]="newcontact.mrfname" #mrfname="ngModel"/></label> {{ mrfname.errors | json }}
+    <label>Missess First Name: <input type="text" name="newcontact.msfname" minlength='2'[(ngModel)]="newcontact.msfname" #msfname="ngModel"/></label> {{ mrfname.errors | json }}
+    <label>Last Name: <input type="text" name="newcontact.lastname" required minlength='2'[(ngModel)]="newcontact.lastname" #lastname="ngModel"/></label> {{ mrfname.errors | json }}
+    <label>Street Address: <input type="text" name="newcontact.streetaddr" required minlength='5'[(ngModel)]="newcontact.streetaddr" #streetaddr="ngModel"/></label> {{ streetaddr.errors | json }} 
+    <label>City/Locality: <input type="text" name="newcontact.city" required minlength='5'[(ngModel)]="newcontact.city" #city="ngModel"/></label> {{ city.errors | json }}  
+    <label>State: <input type="text" name="newcontact.state" required minlength='2' maxlength='2' [(ngModel)]="newcontact.state" #state="ngModel"/></label> {{ state.errors | json }} 
+    <label>Postal Code: <input type="text" name="newcontact.postalcode" required minlength='5'[(ngModel)]="newcontact.postalcode" #postalcode="ngModel"/></label> {{ postalcode.errors | json }}
+    <label>Country: <input type="text" name="newcontact.country" required minlength='3'[(ngModel)]="newcontact.country" #country="ngModel"/></label> {{ country.errors | json }}    
+    <label>Mister Date of Birth: <input type="date" name="newcontact.mrdob" minlength='3'[(ngModel)]="newcontact.mrdob" #mrdob="ngModel"/></label> {{ mrdob.errors | json }}    
+    <label>Misses Date of Birth: <input type="date" name="newcontact.msdob" minlength='3'[(ngModel)]="newcontact.msdob" #msdob="ngModel"/></label> {{ msdob.errors | json }} 
+    <label>Anniversary Date: <input type="date" name="newcontact.anidate" minlength='3'[(ngModel)]="newcontact.anidate" #anidate="ngModel"/></label> {{ anidate.errors | json }} 
+    <h3 *ngIf='!lastname.errors'>
+      <h3 *ngIf='!streetaddr.errors'>
+        <h3 *ngIf='!city.errors'>
+          <h3 *ngIf='!state.errors'>
+            <h3 *ngIf='!postalcode.errors'>
+              <h3 *ngIf='!country.errors'>
+                  <input type='submit' value='Submit'/>
+              </h3>
+            </h3>
+          </h3>
+        </h3>
+      </h3>
+    </h3>
+    <button [routerLink]="['/home/list/contacts']">Cancel</button>
+  </form>
+</div>
+<div *ngFor='let e of message'>
+    {{e}}
+</div>

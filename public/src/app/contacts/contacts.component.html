@@ -5,15 +5,16 @@
         <th>Contact Actions</th>
         <th>Special Features</th>
       </tr>
-    <tr *ngFor='let c of contacts;let i = index'>
-      <td>{{u.name}}</td>
+    <tr *ngFor='let c of dcontacts;let i = index'>
+      <td>{{c.name}}</td>
+      <td>{{c.id}}</td>
       <td>
-        <button [routerLink]="['/home/list/edit']">Register</button>
-        <button (click)='destroyUser(u._id)'>Delete</button>
+        <button [routerLink]="['/home/list/edit', c.id]">Edit</button>
+        <button (click)='destroyUser(c.id)'>Delete</button>
       </td>
       <td>
-          <button [routerLink]="['/home/list/tracking']">Card Sent/Received</button>
-          <button (click)='printLabel(u._id)'>Print Labels</button>
+          <button [routerLink]="['/home/tracking', c.id]">Card Sent/Received</button>
+          <button (click)='printLabel(c.id)'>Print Labels</button>
         </td>
     </tr>
   </table>

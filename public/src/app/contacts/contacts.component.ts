@@ -9,11 +9,18 @@ import { HttpService } from './../http.service';
 export class ContactsComponent implements OnInit {
   contacts: any;
   message: any;
+  users: any;
+  dcontacts: any;
   constructor(private _httpService: HttpService) { }
 
   ngOnInit() {
-    this.contacts = [];
+    this.contacts = {
+      name: '',
+      id: ''
+    };
     this.message = [];
+    this.users = [];
+    this.dcontacts = [];
     this.setPage();
   }
 
@@ -25,8 +32,17 @@ export class ContactsComponent implements OnInit {
         this.message.push(data['error'].message);
         console.log('this.message', this.message);
       } else {
-        this.contacts = data['users'][0];
+        this.dcontacts = [];
+        this.users = data['users'][0];
         console.log('this.contacts', this.contacts);
+        for (let x = 0; x < this.users.contacts.length; x++) {
+          console.log('in contacts for loop');
+          const temp = { name: '', id: ''};
+          temp.name = this.users.contacts[x].cname;
+          temp.id = this.users.contacts[x]._id;
+          this.dcontacts.push(temp);
+          console.log('dcontacts', this.dcontacts);
+        }
       }
     });
   }

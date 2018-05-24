@@ -28,16 +28,16 @@ export class HttpService {
     return this._http.delete('/delete/' + id);
   }
 
-  addBday(id, updatecontact) {
-    return this._http.put('/addbd/' + id, updatecontact);
+  addBday(id, bdinfo) {
+    return this._http.put('/addbd/' + id, bdinfo);
   }
 
-  addAnv(id, updatecontact) {
-    return this._http.put('/addanv/' + id, updatecontact);
+  addAnv(id, aninfo) {
+    return this._http.put('/addanv/' + id, aninfo);
   }
 
-  addXmas(id, updatecontact) {
-    return this._http.put('/addxmas/' + id, updatecontact);
+  addXmas(id, xmasinfo) {
+    return this._http.put('/addxmas/' + id, xmasinfo);
   }
 
   register(newuser) {
@@ -56,7 +56,13 @@ export class HttpService {
   list() {
     return this._http.get('/list');
   }
+  edit(id) {
+    return this._http.get('/edit/' + id);
+  }
 
+  tracking(id) {
+    return this._http.get('/tracking/' + id);
+  }
 
   // end of file
 }

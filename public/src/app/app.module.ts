@@ -18,6 +18,7 @@ import { AddxmasComponent } from './addxmas/addxmas.component';
 import { HttpService } from './http.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ContactsComponent } from './contacts/contacts.component';
+import { TrackingComponent } from './tracking/tracking.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ContactsComponent } from './contacts/contacts.component';
     AddbdComponent,
     AddanvComponent,
     AddxmasComponent,
-    ContactsComponent
+    ContactsComponent,
+    TrackingComponent
   ],
   imports: [
     BrowserModule,

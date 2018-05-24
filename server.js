@@ -10,13 +10,13 @@ var validator = require('validator');
 var app = express();
 
 app.use(express.static(__dirname + '/public/dist/public'));
+app.use(bodyParser.json());
 app.use(session({
     secret: 'codingdojo',
-    resave: false,
+    resave: true,
     saveUninitialized: true,
-    cookie: { maxAge: 60000 }
 }));
-app.use(bodyParser.json());
+
 app.use(flash());
 
 app.set('views', __dirname + '/client/views');

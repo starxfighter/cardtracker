@@ -12,6 +12,7 @@ import { AddbdComponent } from './addbd/addbd.component';
 import { AddanvComponent } from './addanv/addanv.component';
 import { AddxmasComponent } from './addxmas/addxmas.component';
 import { ContactsComponent } from './contacts/contacts.component';
+import { TrackingComponent } from './tracking/tracking.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent, children: [
@@ -22,11 +23,13 @@ const routes: Routes = [
     {path: 'list', component: ListComponent, children: [
       {path: 'contacts', component: ContactsComponent},
       {path: 'add', component: AddComponent},
-      {path: 'edit', component: EditComponent},
+      {path: 'edit/:id', component: EditComponent}
+    ]},
+    {path: 'tracking/:id', component: TrackingComponent, children: [
       {path: 'addbd', component: AddbdComponent},
       {path: 'addanv', component: AddanvComponent},
       {path: 'addxmas', component: AddxmasComponent}
-    ]}
+    ]},
   ]},
   {path: '', component: HomeComponent}
 ];

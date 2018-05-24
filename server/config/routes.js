@@ -17,11 +17,11 @@ module.exports = function(app) {
 
     app.delete('/delete/:id', controller.delete)
 
-    // app.put('/addbd/:id', controller.updatebd)
+    app.put('/addbd/:id', controller.addBday)
 
-    // app.put('/addanv/:id', controller.updatean)
+    app.put('/addanv/:id', controller.addAnnv)
 
-    // app.put('/addxams/:id', controller.updatexm)
+    app.put('/addxmas/:id', controller.addXmas)
 
     app.post('/reg', controller.register)
 

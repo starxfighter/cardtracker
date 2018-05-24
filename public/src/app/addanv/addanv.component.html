@@ -1,3 +1,25 @@
-<p>
-  addanv works!
-</p>
+<div class='contact'>
+    <h1>{{contact.name}}</h1>
+    <h3>{{contact.streetaddr}}</h3>
+    <h3>{{contact.city}}</h3>
+    <h3>{{contact.state}}</h3>
+    <h3>{{contact.postalcode}}</h3>
+    <h3>{{contact.country}}</h3>
+    <div class='track'>
+      <h3>{{contact.bdaytrk}}</h3>
+    </div>
+  </div>
+  <div class='annv'>
+    <form (submit) = 'addAntrack(id)'>
+      <label>Tracking Status: <select name='aninfo.status' required [(ngModel)]="aninfo.status" #status="ngModel"> 
+          <option value="sent">Sent</option>
+          <option value="received">Received</option>
+      </select></label> {{ status.errors | json }}
+      <label>Tracking Date: <input type="date" name="aninfo.trkdate" required [(ngModel)]="aninfo.trkdate" #trkdate="ngModel"/></label> {{ trkdate.errors | json }}
+      <input type='submit' value='Submit'/>
+      <button [routerLink]="['/home/tracking', id, 'addbd']">Cancel</button>
+    </form>
+  </div>
+  <div *ngFor='let e of message'>
+      {{e}}
+  </div>

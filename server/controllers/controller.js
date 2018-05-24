@@ -23,8 +23,9 @@ module.exports = {
     },
 
     display: function(req, res){
-        console.log('passed id', req.params.id)
-        User.find({_id: req.params.id}, function(err, user){
+        console.log("session display", req.session.uid);
+        console.log('passes id', req.params.id);
+        User.findOne({_id: req.session.uid}, function(err, user){
             if(err){
                 console.log("User not found")
                 for(var key in err.errors){
@@ -32,9 +33,11 @@ module.exports = {
                     }
                 res.json({error: err})   
             } else {
-                console.log('User found')
-                res.json({users:user})       
-            }
+                console.log('user found')
+                contact = user.contacts.id(req.params.id)
+                 console.log('Contact found');
+                res.json({contact:contact})
+            }       
         })
     },
 
@@ -50,29 +53,15 @@ module.exports = {
             res.json({message: 'Last Name must be longer than 2 characters'})
             return res.json;
         }
-        if (form.streetaddr.length < 5){
-            res.json({message: 'Street Address must be longer than 5 characters'})
-            return res.json;
-        }
-        if (form.city < 5){
-            res.json({message: 'City must be longer than 5 characters'})
-            return res.json;
-        }
-        if (form.state > 2){
-            res.json({message: 'State must not be longer than 2 characters'})
-            return res.json;
-        }
-        if (form.postalcode < 5){
-            res.json({message: 'Postal Code must be at least 5 characters long'})
-            return res.json;
-        }
         User.find({_id: req.session.uid}, function(err, user){
-            if (form.mrfname.length < 0 && form.msfname > 0){
+            console.log('mrfname length', form.mrfname.length)
+            console.log('msfname length', form.msfname.length)
+            if (form.mrfname.length < 1 && form.msfname.length > 1){
                 tname = form.msfname + " " + form.lastname
-            }else if(form.mrfname > 0 && form.msfname < 0){
+            }else if(form.mrfname.length > 1 && form.msfname.length < 1){
                 tname = form.mrfname + " " + form.lastname
             }else {
-                tname = form.mrfname + '&' + form.msfname + " " + form.lastname
+                tname = form.mrfname + ' & ' + form.msfname + " " + form.lastname
             }
             user[0].contacts.push({
                 cname: tname,
@@ -104,84 +93,85 @@ module.exports = {
     update: function(req, res){
         console.log("incoming data", req.body)
         form = req.body;
-        if (form.misterfname.length < 5){
-            req.flash('user', 'Mister First Name must be longer than 5 characters')
-            res.json({error: err})
-        }else if(validator.isAlpha(form.misterfname) == false){
-            req.flash('user', "The first name nust contain only alphabetic characters")
-            res.json({error: err})
+        if (form.name.length < 5){
+            res.json({message: 'Name must be longer than 5 characters'})
+            return res.json;
         }
-        if (form.missesfname.length < 5){
-            req.flash('user', 'Misses First Name must be longer than 5 characters')
-            res.json({error: err})
-        }else if(validator.isAlpha(form.misssesfname) == false){
-            req.flash('user', "The first name nust contain only alphabetic characters")
-            res.json({error: err})
-        }
-        if (form.street_addr.length < 5){
-            req.flash('user', 'Street Address must be longer than 5 characters')
-            res.json({error: err})
-        }
-        if (form.state > 5){
-            req.flash('user', 'Street Address must not be longer than 2 characters')
-            res.json({error: err})
-        }
-        if (form.postal_code < 5){
-            req.flash('user', 'Postal Code must be at least 5 characters long')
-            res.json({error: err})
-        }
-        User.find({_id: req.params.id}, function(err, user){
-            if (form.misterfname.length < 0 && form.missesfname > 0){
-                tname = form.missesfname + " " + form.lastname
-            }else if(form.misterfname > 0 && form.missesfname < 0){
-                tname = form.misterfname + " " + form.lastname
-            }else {
-                tname = form.misterfname + '&' + form.missesfname + " " + form.lastname
+        console.log("session update", req.session.uid);
+        User.findOne({_id: req.session.uid}, function(err, user){
+            if(err){
+                console.log("User not found")
+                for(var key in err.errors){
+                    req.flash('user', err.errors[key].message);
+                    }
+                res.json({error: err})   
+            } else {
+                console.log('user found')
+                console.log('passes id', req.params.id)
+                contact = user.contacts.id(req.params.id)
+                console.log("contact info to update", contact)
+                contact.cname = form.name
+                contact.cstreet_addr = form.streetaddr
+                contact.city_locality = form.city
+                contact.cstate = form.state
+                contact.cp_code = form.postalcode
+                contact.cc_code = form.country
+                contact.mister_dob = form.mrdob
+                contact.misses_dob = form.msdob
+                contact.anni_date = form.anidate
+                user.save(function(err){
+                    if(err){
+                        console.log('update failed')
+                        for(var key in err.errors){
+                            req.flash('user', err.errors[key].message);
+                            }
+                        res.json({error: err})
+                    } else {
+                        console.log('Successfully updated contact')
+                        res.json({message: "Success"})
+                    }
+                })
             }
-            user[0].contacts.push({
-                cname: tname,
-                cstreet_addr: form.street_addr,
-                city_locality: form.city,
-                cstate: form.state,
-                cp_code: form.postal_code,
-                cc_code: form.country,
-                mister_dob: form.misterdob,
-                misses_dob: form.missesdob,
-                anni_date: form.annidate,           
-            })
-            user[0].save(function(err){
-                if(err){
-                    console.log('add failed')
-                    for(var key in err.errors){
-                        req.flash('user', err.errors[key].message);
-                        }
-                    res.json({error: err})
-                }else{
-                    console.log('Successfully added user')
-                    req.flash('user', 'Contact successfully added');
-                    res.json({message: "Success"})
-                }    
-            })
         })
     },
 
     delete: function(req, res){
         console.log("update data", req.body)
+        console.log("session delete", req.session.uid);
         form = req.body;
-        User.find({_id:req.params.id}, function(err, user){
-        user[0].remove(function(err){
+        User.findOne({_id:req.session.uid}, function(err, user){
             if(err){
-                console.log('delete failed')
+                console.log("User not found")
                 for(var key in err.errors){
                     req.flash('user', err.errors[key].message);
                     }
-                res.json({error: err})
-            }else{
-                console.log('Successfully deleted user')
-                req.flash('user', 'Successfully deleted contact');
-                res.json({message: "Success"})
-            }
-        })
+                res.json({error: err}) 
+            } else {
+                console.log('passes id', req.params.id)
+                contact = user.contacts.id(req.params.id)
+                contact.remove(function(err){
+                    if(err){
+                        console.log('delete failed')
+                        for(var key in err.errors){
+                            req.flash('user', err.errors[key].message);
+                            }
+                        res.json({error: err})
+                    }else{
+                        user.save(function(err){
+                            if(err){
+                                console.log('update failed')
+                                for(var key in err.errors){
+                                    req.flash('user', err.errors[key].message);
+                                    }
+                                res.json({error: err})
+                            } else {
+                                console.log('Successfully updated contact')
+                                res.json({message: "Success"})
+                            }
+                        })
+                    }
+                })
+            }   
         })
     },
     
@@ -309,6 +299,138 @@ module.exports = {
                     })
             }
         })
-    }
+    },
+
+    addBday: function(req, res){
+        console.log("incoming data", req.body)
+        form = req.body;
+        if (form.status.length < 1){
+            res.json({message: 'A status must be selected'})
+            return res.json;
+        }
+        if (form.trkdate.length < 1){
+            res.json({message: 'A tracking date must be selected'})
+            return res.json;
+        }
+        console.log("session update", req.session.uid);
+        User.findOne({_id: req.session.uid}, function(err, user){
+            if(err){
+                console.log("User not found")
+                for(var key in err.errors){
+                    req.flash('user', err.errors[key].message);
+                    }
+                res.json({error: err})   
+            } else {
+                console.log('user found')
+                console.log('passes id', req.params.id)
+                contact = user.contacts.id(req.params.id)
+                console.log("contact info to update", contact)
+                contact.bday_track.push({
+                    bdstatus: form.status,
+                    bd_date: form.trkdate
+                })
+                user.save(function(err){
+                    if(err){
+                        console.log('bd update failed')
+                        for(var key in err.errors){
+                            req.flash('user', err.errors[key].message);
+                            }
+                        res.json({error: err})
+                    } else {
+                        console.log('Successfully updated bd track')
+                        res.json({message: "Success"})
+                    }
+                })
+            }
+        })
+    },
+
+    addAnnv: function(req, res){
+        console.log("incoming data", req.body)
+        form = req.body;
+        if (form.status.length < 1){
+            res.json({message: 'A status must be selected'})
+            return res.json;
+        }
+        if (form.trkdate.length < 1){
+            res.json({message: 'A tracking date must be selected'})
+            return res.json;
+        }
+        console.log("session update", req.session.uid);
+        User.findOne({_id: req.session.uid}, function(err, user){
+            if(err){
+                console.log("User not found")
+                for(var key in err.errors){
+                    req.flash('user', err.errors[key].message);
+                    }
+                res.json({error: err})   
+            } else {
+                console.log('user found')
+                console.log('passes id', req.params.id)
+                contact = user.contacts.id(req.params.id)
+                console.log("contact info to update", contact)
+                contact.anniversary_track.push({
+                    anstatus: form.status,
+                    an_date: form.trkdate
+                })
+                user.save(function(err){
+                    if(err){
+                        console.log('an update failed')
+                        for(var key in err.errors){
+                            req.flash('user', err.errors[key].message);
+                            }
+                        res.json({error: err})
+                    } else {
+                        console.log('Successfully updated an track')
+                        res.json({message: "Success"})
+                    }
+                })
+            }
+        })
+    },
+
+    addXmas: function(req, res){
+        console.log("add xmas incoming data", req.body)
+        form = req.body;
+        if (form.status.length < 1){
+            res.json({message: 'A status must be selected'})
+            return res.json;
+        }
+        if (form.trkdate.length < 1){
+            res.json({message: 'A tracking date must be selected'})
+            return res.json;
+        }
+        console.log("xmas session update", req.session.uid);
+        User.findOne({_id: req.session.uid}, function(err, user){
+            if(err){
+                console.log("User not found")
+                for(var key in err.errors){
+                    req.flash('user', err.errors[key].message);
+                    }
+                res.json({error: err})   
+            } else {
+                console.log('xmas user found')
+                console.log('xmas passes id', req.params.id)
+                contact = user.contacts.id(req.params.id)
+                console.log("xmas contact info to update", contact)
+                contact.xmas_track.push({
+                    xmasstatus: form.status,
+                    xmas_date: form.trkdate
+                })
+                user.save(function(err){
+                    if(err){
+                        console.log('xmas update failed')
+                        for(var key in err.errors){
+                            req.flash('user', err.errors[key].message);
+                            }
+                        res.json({error: err})
+                    } else {
+                        console.log('Successfully updated xmas track')
+                        res.json({message: "Success"})
+                    }
+                })
+            }
+        })
+    },
     // end of exports
 }

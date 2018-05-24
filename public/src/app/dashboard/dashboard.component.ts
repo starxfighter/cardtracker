@@ -9,7 +9,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
   uevents: any;
-  events: any;
   message: any;
   users: any;
   constructor(
@@ -19,18 +18,17 @@ export class DashboardComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.events = {
-      name: '',
-      date: '',
-      event: ''
-    };
     this.uevents = [];
     this.message = [];
     this.users = [];
+
+    console.log(this.uevents);
     this.setPage();
+
   }
 
   setPage() {
+
     const observable = this._httpService.getUsers();
     observable.subscribe(data => {
       console.log('got our users', data);
@@ -41,12 +39,12 @@ export class DashboardComponent implements OnInit {
           console.log('dashboard', this.users);
           for (let x = 0; x < this.users.contacts.length; x++) {
             console.log('in dash for loop');
+            console.log('x value', x);
             // if dob > today & < today + 3mos
-            this.events.name = this.users.contacts[x].cname;
-            this.events.date = '';
-            this.events.event = '';
-            this.uevents.push(this.events);
-            console.log('uevents', this.uevents);
+            const temp = { name: ''};
+            temp.name = this.users.contacts[x].cname;
+            this.uevents.push(temp);
+             console.log('uevents', this.uevents);
           }
       }
     });

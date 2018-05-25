@@ -12,6 +12,7 @@ export class AddxmasComponent implements OnInit {
   contact: any;
   message: any;
   xmasinfo: any;
+  tracking: any;
   constructor(
     private _httpService: HttpService,
     private route: ActivatedRoute,
@@ -29,13 +30,14 @@ export class AddxmasComponent implements OnInit {
       state: '',
       postalcode: '',
       country: '',
-      bdaytrk: ''
+      xmastrk: ''
     };
     this.xmasinfo = {
       status: '',
       trkdate: ''
     };
     this.message = [];
+    this.tracking = [];
     this.displayContact(this.id);
   }
 
@@ -55,7 +57,13 @@ export class AddxmasComponent implements OnInit {
         this.contact.state = data['contact'].cstate;
         this.contact.postalcode = data['contact'].cp_code;
         this.contact.country = data['contact'].cc_code;
-        this.contact.bdaytrk = data['contact'].bday_track;
+        this.contact.xmastrk = data['contact'].xmas_track;
+        for (let x = 0; x < this.contact.xmastrk.length; x++) {
+          const temp = {status: '', date: ''};
+          temp.status = this.contact.xmastrk[x].xmasstatus;
+          temp.date = this.contact.xmastrk[x].xmas_date;
+          this.tracking.push(temp);
+        }
       }
     });
   }

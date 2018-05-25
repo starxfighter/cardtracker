@@ -12,6 +12,7 @@ export class AddbdComponent implements OnInit {
   contact: any;
   message: any;
   bdinfo: any;
+  tracking: any;
   constructor(
     private _httpService: HttpService,
     private route: ActivatedRoute,
@@ -36,6 +37,7 @@ export class AddbdComponent implements OnInit {
       trkdate: ''
     };
     this.message = [];
+    this.tracking = [];
     this.displayContact(this.id);
   }
 
@@ -48,7 +50,6 @@ export class AddbdComponent implements OnInit {
         console.log('this.message', this.message);
       } else {
         console.log('display data', data);
-        console.log('display data', data['contact'].cname);
         this.contact.name = data['contact'].cname;
         this.contact.streetaddr = data['contact'].cstreet_addr;
         this.contact.city = data['contact'].city_locality;
@@ -56,6 +57,12 @@ export class AddbdComponent implements OnInit {
         this.contact.postalcode = data['contact'].cp_code;
         this.contact.country = data['contact'].cc_code;
         this.contact.bdaytrk = data['contact'].bday_track;
+        for (let x = 0; x < this.contact.bdaytrk.length; x++) {
+          const temp = {status: '', date: ''};
+          temp.status = this.contact.bdaytrk[x].bdstatus;
+          temp.date = this.contact.bdaytrk[x].bd_date;
+          this.tracking.push(temp);
+        }
       }
     });
   }

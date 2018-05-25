@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var validator = require('validator');
 var bcrypt = require('bcrypt');
+var axios = require('axios');
 
 
 module.exports = {
@@ -53,41 +54,194 @@ module.exports = {
             res.json({message: 'Last Name must be longer than 2 characters'})
             return res.json;
         }
-        User.find({_id: req.session.uid}, function(err, user){
-            console.log('mrfname length', form.mrfname.length)
-            console.log('msfname length', form.msfname.length)
-            if (form.mrfname.length < 1 && form.msfname.length > 1){
-                tname = form.msfname + " " + form.lastname
-            }else if(form.mrfname.length > 1 && form.msfname.length < 1){
-                tname = form.mrfname + " " + form.lastname
-            }else {
-                tname = form.mrfname + ' & ' + form.msfname + " " + form.lastname
-            }
-            user[0].contacts.push({
-                cname: tname,
-                cstreet_addr: form.streetaddr,
-                city_locality: form.city,
-                cstate: form.state,
-                cp_code: form.postalcode,
-                cc_code: form.country,
-                mister_dob: form.mrdob,
-                misses_dob: form.msdob,
-                anni_date: form.anidate,           
-            })
-            user[0].save(function(err){
-                if(err){
-                    console.log('add failed')
-                    for(var key in err.errors){
-                        req.flash('user', err.errors[key].message);
-                        }
-                    res.json({error: err})
-                }else{
-                    console.log('Successfully added user')
-                    res.json({success: "Contact successfully added"})
-                    return res.json;
-                }    
-            })
-        })
+        var usvariations = ['usa', 'united states', 'america']
+        var tempcountry = form.country.toLowerCase()
+        var status = 'Unverified'
+        if (usvariations.indexOf(tempcountry) > -1) {
+            console.log('us entry')
+            var tempstreet = form.streetaddr.replace(/\s+/g, "%20");
+            var url = 'https://us-street.api.smartystreets.com/street-address?auth-id=55ea844c-0e0c-1db3-8642-115d9b517646&auth-token=QYQNH3HjAX4m3dczAcdu&street=' + tempstreet + '&city=' + form.city + '&state=' + form.state + '&zipcode=' + form.postalcode + '&';
+            axios.get(url)
+                .then(response => {
+                    if (response.data.length > 0){
+                        console.log('us pos')
+                        form.streetaddr = response.data[0].delivery_line_1
+                        form.city = response.data[0]['components'].city_name
+                        form.state = response.data[0]['components'].state_abbreviation
+                        form.postalcode = response.data[0]['components'].zipcode + response.data[0]['components'].plus4_code
+                        status = 'Verified'
+                        console.log('status before db entry')
+                        User.find({_id: req.session.uid}, function(err, user){
+                            if (form.mrfname.length < 1 && form.msfname.length > 1){
+                                tname = form.msfname + " " + form.lastname
+                            }else if(form.mrfname.length > 1 && form.msfname.length < 1){
+                                tname = form.mrfname + " " + form.lastname
+                            }else {
+                                tname = form.mrfname + ' & ' + form.msfname + " " + form.lastname
+                            }
+                            user[0].contacts.push({
+                                cname: tname,
+                                cstreet_addr: form.streetaddr,
+                                city_locality: form.city,   
+                                cstate: form.state,
+                                cp_code: form.postalcode,
+                                cc_code: form.country,
+                                mister_dob: form.mrdob,
+                                misses_dob: form.msdob,
+                                anni_date: form.anidate,   
+                                validation: status,        
+                            })
+                            user[0].save(function(err){
+                                if(err){
+                                    console.log('add failed')
+                                    for(var key in err.errors){
+                                        req.flash('user', err.errors[key].message);
+                                        }
+                                    res.json({error: err})
+                                }else{
+                                    console.log('Successfully added user')
+                                    res.json({success: "Contact successfully added"})
+                                    return res.json;
+                                }    
+                            })
+                        })
+                    } else {
+                        console.log('us neg')
+                        status = 'Unverified'
+                        console.log('status before db entry')
+                        User.find({_id: req.session.uid}, function(err, user){
+                            if (form.mrfname.length < 1 && form.msfname.length > 1){
+                                tname = form.msfname + " " + form.lastname
+                            }else if(form.mrfname.length > 1 && form.msfname.length < 1){
+                                tname = form.mrfname + " " + form.lastname
+                            }else {
+                                tname = form.mrfname + ' & ' + form.msfname + " " + form.lastname
+                            }
+                            user[0].contacts.push({
+                                cname: tname,
+                                cstreet_addr: form.streetaddr,
+                                city_locality: form.city,   
+                                cstate: form.state,
+                                cp_code: form.postalcode,
+                                cc_code: form.country,
+                                mister_dob: form.mrdob,
+                                misses_dob: form.msdob,
+                                anni_date: form.anidate,   
+                                validation: status,        
+                            })
+                            user[0].save(function(err){
+                                if(err){
+                                    console.log('add failed')
+                                    for(var key in err.errors){
+                                        req.flash('user', err.errors[key].message);
+                                        }
+                                    res.json({error: err})
+                                }else{
+                                    console.log('Successfully added user')
+                                    res.json({success: "Contact successfully added"})
+                                    return res.json;
+                                }    
+                            })
+                        })
+                    }
+                })
+                .catch(error => {
+                    console.log('axios error', error)
+                    res.json({message: "Failed"})
+                });
+        } else {
+            console.log('not us')
+            var tempstreet = form.streetaddr.replace(/\s+/g, "%20");
+            // https://international-street.api.smartystreets.com/verify?auth-id=55ea844c-0e0c-1db3-8642-115d9b517646&auth-token=QYQNH3HjAX4m3dczAcdu&country=Hungary&address1=virag%20ut%204&locality=ramocsahaza&administrative_area=&postal_code=4536&
+            var url = 'https://international-street.api.smartystreets.com/verify?auth-id=55ea844c-0e0c-1db3-8642-115d9b517646&auth-token=QYQNH3HjAX4m3dczAcdu&country=' + form.country + '&address1=' + tempstreet + '&locality=' + form.city + '&administrative_area=&postal_code=' + form.postalcode + '&';
+            axios.get(url)
+                .then(response => {
+                    if (response){
+                        console.log('non us pos')
+                        form.streetaddr = response.data[0].address2
+                        form.city = response.data[0]['components'].locality
+                        form.postalcode = response.data[0]['components'].postal_code
+                        status = response.data[0]['analysis'].verification_status
+                        console.log('status before db entry')
+                        User.find({_id: req.session.uid}, function(err, user){
+                            if (form.mrfname.length < 1 && form.msfname.length > 1){
+                                tname = form.msfname + " " + form.lastname
+                            }else if(form.mrfname.length > 1 && form.msfname.length < 1){
+                                tname = form.mrfname + " " + form.lastname
+                            }else {
+                                tname = form.mrfname + ' & ' + form.msfname + " " + form.lastname
+                            }
+                            user[0].contacts.push({
+                                cname: tname,
+                                cstreet_addr: form.streetaddr,
+                                city_locality: form.city,   
+                                cstate: form.state,
+                                cp_code: form.postalcode,
+                                cc_code: form.country,
+                                mister_dob: form.mrdob,
+                                misses_dob: form.msdob,
+                                anni_date: form.anidate,   
+                                validation: status,        
+                            })
+                            user[0].save(function(err){
+                                if(err){
+                                    console.log('add failed')
+                                    for(var key in err.errors){
+                                        req.flash('user', err.errors[key].message);
+                                        }
+                                    res.json({error: err})
+                                }else{
+                                    console.log('Successfully added user')
+                                    res.json({success: "Contact successfully added"})
+                                    return res.json;
+                                }    
+                            })
+                        })
+                    } else {
+                        console.log('non us neg')
+                        status = 'Unverified'
+                        console.log('status before db entry')
+                        User.find({_id: req.session.uid}, function(err, user){
+                            if (form.mrfname.length < 1 && form.msfname.length > 1){
+                                tname = form.msfname + " " + form.lastname
+                            }else if(form.mrfname.length > 1 && form.msfname.length < 1){
+                                tname = form.mrfname + " " + form.lastname
+                            }else {
+                                tname = form.mrfname + ' & ' + form.msfname + " " + form.lastname
+                            }
+                            user[0].contacts.push({
+                                cname: tname,
+                                cstreet_addr: form.streetaddr,
+                                city_locality: form.city,   
+                                cstate: form.state,
+                                cp_code: form.postalcode,
+                                cc_code: form.country,
+                                mister_dob: form.mrdob,
+                                misses_dob: form.msdob,
+                                anni_date: form.anidate,   
+                                validation: status,        
+                            })
+                            user[0].save(function(err){
+                                if(err){
+                                    console.log('add failed')
+                                    for(var key in err.errors){
+                                        req.flash('user', err.errors[key].message);
+                                        }
+                                    res.json({error: err})
+                                }else{
+                                    console.log('Successfully added user')
+                                    res.json({success: "Contact successfully added"})
+                                    return res.json;
+                                }    
+                            })
+                        })
+                    }
+                })
+                .catch(error => {
+                    console.log('axios error', error)
+                    res.json({message: "Failed"})
+                });
+        }
     },
 
     update: function(req, res){
@@ -98,41 +252,199 @@ module.exports = {
             return res.json;
         }
         console.log("session update", req.session.uid);
-        User.findOne({_id: req.session.uid}, function(err, user){
-            if(err){
-                console.log("User not found")
-                for(var key in err.errors){
-                    req.flash('user', err.errors[key].message);
-                    }
-                res.json({error: err})   
-            } else {
-                console.log('user found')
-                console.log('passes id', req.params.id)
-                contact = user.contacts.id(req.params.id)
-                console.log("contact info to update", contact)
-                contact.cname = form.name
-                contact.cstreet_addr = form.streetaddr
-                contact.city_locality = form.city
-                contact.cstate = form.state
-                contact.cp_code = form.postalcode
-                contact.cc_code = form.country
-                contact.mister_dob = form.mrdob
-                contact.misses_dob = form.msdob
-                contact.anni_date = form.anidate
-                user.save(function(err){
-                    if(err){
-                        console.log('update failed')
-                        for(var key in err.errors){
-                            req.flash('user', err.errors[key].message);
+        var usvariations = ['usa', 'united states', 'america']
+        var tempcountry = form.country.toLowerCase()
+        var status = 'Unverified'
+        if (usvariations.indexOf(tempcountry) > -1) {
+            console.log('us entry')
+            var tempstreet = form.streetaddr.replace(/\s+/g, "%20");
+            var url = 'https://us-street.api.smartystreets.com/street-address?auth-id=55ea844c-0e0c-1db3-8642-115d9b517646&auth-token=QYQNH3HjAX4m3dczAcdu&street=' + tempstreet + '&city=' + form.city + '&state=' + form.state + '&zipcode=' + form.postalcode + '&';
+            axios.get(url)
+                .then(response => {
+                    if (response.data.length > 0){
+                        console.log('us pos')
+                        // form.streetaddr = response.data[0].delivery_line_1
+                        // form.city = response.data[0]['components'].city_name
+                        // form.state = response.data[0]['components'].state_abbreviation
+                        // form.postalcode = response.data[0]['components'].zipcode + response.data[0]['components'].plus4_code
+                        status = 'Verified'
+                        console.log('status before db entry')
+                        User.findOne({_id: req.session.uid}, function(err, user){
+                            if(err){
+                                console.log("User not found")
+                                for(var key in err.errors){
+                                    req.flash('user', err.errors[key].message);
+                                    }
+                                res.json({error: err})   
+                            } else {
+                                console.log('user found')
+                                console.log('passes id', req.params.id)
+                                contact = user.contacts.id(req.params.id)
+                                contact.cname = form.name
+                                contact.cstreet_addr = form.streetaddr
+                                contact.city_locality = form.city
+                                contact.cstate = form.state
+                                contact.cp_code = form.postalcode
+                                contact.cc_code = form.country
+                                contact.mister_dob = form.mrdob
+                                contact.misses_dob = form.msdob
+                                contact.anni_date = form.anidate
+                                contact.validation = status
+                                user.save(function(err){
+                                    if(err){
+                                        console.log('update failed')
+                                        for(var key in err.errors){
+                                            req.flash('user', err.errors[key].message);
+                                            }
+                                        res.json({error: err})
+                                    } else {
+                                        console.log('Successfully updated contact')
+                                        res.json({message: "Success"})
+                                    }
+                                })
                             }
-                        res.json({error: err})
+                        })
                     } else {
-                        console.log('Successfully updated contact')
-                        res.json({message: "Success"})
+                        console.log('us neg')
+                        status = 'Unverified'
+                        console.log('status before db entry')
+                        User.findOne({_id: req.session.uid}, function(err, user){
+                            if(err){
+                                console.log("User not found")
+                                for(var key in err.errors){
+                                    req.flash('user', err.errors[key].message);
+                                    }
+                                res.json({error: err})   
+                            } else {
+                                console.log('user found')
+                                console.log('passes id', req.params.id)
+                                contact = user.contacts.id(req.params.id)
+                                contact.cname = form.name
+                                contact.cstreet_addr = form.streetaddr
+                                contact.city_locality = form.city
+                                contact.cstate = form.state
+                                contact.cp_code = form.postalcode
+                                contact.cc_code = form.country
+                                contact.mister_dob = form.mrdob
+                                contact.misses_dob = form.msdob
+                                contact.anni_date = form.anidate
+                                contact.validation = status
+                                user.save(function(err){
+                                    if(err){
+                                        console.log('update failed')
+                                        for(var key in err.errors){
+                                            req.flash('user', err.errors[key].message);
+                                            }
+                                        res.json({error: err})
+                                    } else {
+                                        console.log('Successfully updated contact')
+                                        res.json({message: "Success"})
+                                    }
+                                })
+                            }
+                        })
                     }
                 })
-            }
-        })
+                .catch(error => {
+                    console.log('axios error', error)
+                    res.json({message: "Failed"})
+                });
+        } else {
+            console.log('not us')
+            var tempstreet = form.streetaddr.replace(/\s+/g, "%20");
+            // https://international-street.api.smartystreets.com/verify?auth-id=55ea844c-0e0c-1db3-8642-115d9b517646&auth-token=QYQNH3HjAX4m3dczAcdu&country=Hungary&address1=virag%20ut%204&locality=ramocsahaza&administrative_area=&postal_code=4536&
+             var url = 'https://international-street.api.smartystreets.com/verify?auth-id=55ea844c-0e0c-1db3-8642-115d9b517646&auth-token=QYQNH3HjAX4m3dczAcdu&country=' + form.country + '&address1=' + tempstreet + '&locality=' + form.city + '&administrative_area=&postal_code=' + form.postalcode + '&';
+            console.log('non us url', url);
+            axios.get(url)
+                .then(response => {
+                    if (response){
+                        console.log('non us pos')
+                        // form.streetaddr = response.data[0].address2
+                        // form.city = response.data[0]['components'].locality
+                        // form.postalcode = response.data[0]['components'].postal_code
+                        status = response.data[0]['analysis'].verification_status
+                        console.log('status before db entry')
+                        User.findOne({_id: req.session.uid}, function(err, user){
+                            if(err){
+                                console.log("User not found")
+                                for(var key in err.errors){
+                                    req.flash('user', err.errors[key].message);
+                                    }
+                                res.json({error: err})   
+                            } else {
+                                console.log('user found')
+                                console.log('passes id', req.params.id)
+                                contact = user.contacts.id(req.params.id)
+                                contact.cname = form.name
+                                contact.cstreet_addr = form.streetaddr
+                                contact.city_locality = form.city
+                                contact.cstate = form.state
+                                contact.cp_code = form.postalcode
+                                contact.cc_code = form.country
+                                contact.mister_dob = form.mrdob
+                                contact.misses_dob = form.msdob
+                                contact.anni_date = form.anidate
+                                contact.validation = status
+                                user.save(function(err){
+                                    if(err){
+                                        console.log('update failed')
+                                        for(var key in err.errors){
+                                            req.flash('user', err.errors[key].message);
+                                            }
+                                        res.json({error: err})
+                                    } else {
+                                        console.log('Successfully updated contact')
+                                        res.json({message: "Success"})
+                                    }
+                                })
+                            }
+                        })
+                    } else {
+                        console.log('non us neg')
+                        status = 'Unverified'
+                        console.log('status before db entry')
+                        User.findOne({_id: req.session.uid}, function(err, user){
+                            if(err){
+                                console.log("User not found")
+                                for(var key in err.errors){
+                                    req.flash('user', err.errors[key].message);
+                                    }
+                                res.json({error: err})   
+                            } else {
+                                console.log('user found')
+                                console.log('passes id', req.params.id)
+                                contact = user.contacts.id(req.params.id)
+                                contact.cname = form.name
+                                contact.cstreet_addr = form.streetaddr
+                                contact.city_locality = form.city
+                                contact.cstate = form.state
+                                contact.cp_code = form.postalcode
+                                contact.cc_code = form.country
+                                contact.mister_dob = form.mrdob
+                                contact.misses_dob = form.msdob
+                                contact.anni_date = form.anidate
+                                contact.validation = status
+                                user.save(function(err){
+                                    if(err){
+                                        console.log('update failed')
+                                        for(var key in err.errors){
+                                            req.flash('user', err.errors[key].message);
+                                            }
+                                        res.json({error: err})
+                                    } else {
+                                        console.log('Successfully updated contact')
+                                        res.json({message: "Success"})
+                                    }
+                                })
+                            }
+                        })
+                    }
+                })
+                .catch(error => {
+                    console.log('axios error', error)
+                    res.json({message: "Failed"})
+                });
+        }
     },
 
     delete: function(req, res){

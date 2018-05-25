@@ -9,7 +9,7 @@
     </tr>
     <tr *ngFor='let u of uevents;let i = index'>
       <td>{{u.name}}</td>
-      <td>{{u.date}}</td>
+      <td>{{u.date| date: "longDate"}}</td>
       <td>{{u.event}}</td>
     </tr>
   </table>

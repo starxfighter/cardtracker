@@ -2,12 +2,15 @@
   <table>
     <tr>
         <th>Name</th>
+        <th>ID</th>
+        <th>Address Status</th>
         <th>Contact Actions</th>
         <th>Special Features</th>
       </tr>
     <tr *ngFor='let c of dcontacts;let i = index'>
       <td>{{c.name}}</td>
       <td>{{c.id}}</td>
+      <td>{{c.status}}</td>
       <td>
         <button [routerLink]="['/home/list/edit', c.id]">Edit</button>
         <button (click)='destroyUser(c.id)'>Delete</button>

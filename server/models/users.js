@@ -15,6 +15,7 @@ var UserSchema = new mongoose.Schema({
         cstate: {type: String},
         cp_code: {type: String},
         cc_code: {type: String},
+        validation: {type: String},
         mister_dob: {type: Date},
         misses_dob: {type: Date},
         anni_date: {type: Date},

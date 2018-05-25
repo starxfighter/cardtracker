@@ -16,7 +16,8 @@ export class ContactsComponent implements OnInit {
   ngOnInit() {
     this.contacts = {
       name: '',
-      id: ''
+      id: '',
+      status: '',
     };
     this.message = [];
     this.users = [];
@@ -37,9 +38,10 @@ export class ContactsComponent implements OnInit {
         console.log('this.contacts', this.contacts);
         for (let x = 0; x < this.users.contacts.length; x++) {
           console.log('in contacts for loop');
-          const temp = { name: '', id: ''};
+          const temp = { name: '', id: '', status: ''};
           temp.name = this.users.contacts[x].cname;
           temp.id = this.users.contacts[x]._id;
+          temp.status = this.users.contacts[x].validation;
           this.dcontacts.push(temp);
           console.log('dcontacts', this.dcontacts);
         }

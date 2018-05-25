@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var flash = require('express-flash');
 const bcrypt = require('bcrypt');
 var validator = require('validator');
+var axios = require('axios');
 // var io = require('socket.io')(server);
 
 var app = express();

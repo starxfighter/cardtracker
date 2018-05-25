@@ -12,6 +12,7 @@ export class AddanvComponent implements OnInit {
   contact: any;
   message: any;
   aninfo: any;
+  tracking: any;
   constructor(
     private _httpService: HttpService,
     private route: ActivatedRoute,
@@ -29,13 +30,14 @@ export class AddanvComponent implements OnInit {
       state: '',
       postalcode: '',
       country: '',
-      bdaytrk: ''
+      anvtrk: ''
     };
     this.aninfo = {
       status: '',
       trkdate: ''
     };
     this.message = [];
+    this.tracking = [];
     this.displayContact(this.id);
   }
 
@@ -55,7 +57,13 @@ export class AddanvComponent implements OnInit {
         this.contact.state = data['contact'].cstate;
         this.contact.postalcode = data['contact'].cp_code;
         this.contact.country = data['contact'].cc_code;
-        this.contact.bdaytrk = data['contact'].bday_track;
+        this.contact.anvtrk = data['contact'].anniversary_track;
+        for (let x = 0; x < this.contact.anvtrk.length; x++) {
+          const temp = {status: '', date: ''};
+          temp.status = this.contact.anvtrk[x].anstatus;
+          temp.date = this.contact.anvtrk[x].an_date;
+          this.tracking.push(temp);
+        }
       }
     });
   }

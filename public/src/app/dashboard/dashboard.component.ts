@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from './../http.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-dashboard',
@@ -39,39 +40,61 @@ export class DashboardComponent implements OnInit {
           console.log('dashboard', this.users);
           for (let x = 0; x < this.users.contacts.length; x++) {
             console.log('in dash for loop');
-            console.log('x value', x);
             // if dob > today & < today + 3mos
-            const temp = { name: ''};
-            temp.name = this.users.contacts[x].cname;
-            this.uevents.push(temp);
-             console.log('uevents', this.uevents);
+            const curdate = moment().format('YYYY-MM-DD');
+            console.log('curdate', curdate);
+            const year = moment(curdate).year();
+            const futdate = moment().add(3, 'M').format('YYYY-MM-DD');
+            console.log('futuredate', futdate);
+            if (this.users.contacts[x].mister_dob !== null) {
+              const tmpmrdob = moment(this.users.contacts[x].mister_dob).year(year).format('YYYY-MM-DD');
+              console.log('tempmrdob', tmpmrdob);
+              const inrange = moment(tmpmrdob).isBetween(curdate, futdate);
+              console.log('in range', inrange);
+              if (inrange === true) {
+                const temp = { name: '', date: '', event: ''};
+                temp.name = this.users.contacts[x].cname;
+                temp.date = this.users.contacts[x].mister_dob;
+                temp.event = 'Mister Birthday';
+                this.uevents.push(temp);
+                console.log('uevents', this.uevents);
+              }
+            // date check end
+            }
+            if (this.users.contacts[x].misses_dob !== null) {
+              const tmpmsdob = moment(this.users.contacts[x].misses_dob).year(year).format('YYYY-MM-DD');
+              console.log('tempmrdob', tmpmsdob);
+              const inrange = moment(tmpmsdob).isBetween(curdate, futdate);
+              console.log('in range', inrange);
+              if (inrange === true) {
+                const temp = { name: '', date: '', event: ''};
+                temp.name = this.users.contacts[x].cname;
+                temp.date = this.users.contacts[x].misses_dob;
+                temp.event = 'Misses Birthday';
+                this.uevents.push(temp);
+                console.log('uevents', this.uevents);
+              }
+            // date check end
+            }
+            if (this.users.contacts[x].anni_date !== null) {
+              const tmpandob = moment(this.users.contacts[x].anni_date).year(year).format('YYYY-MM-DD');
+              console.log('tempmrdob', tmpandob);
+              const inrange = moment(tmpandob).isBetween(curdate, futdate);
+              console.log('in range', inrange);
+              if (inrange === true) {
+                const temp = { name: '', date: '', event: ''};
+                temp.name = this.users.contacts[x].cname;
+                temp.date = this.users.contacts[x].anni_date;
+                temp.event = 'Anniversary';
+                this.uevents.push(temp);
+                console.log('uevents', this.uevents);
+              }
+            // date check end
+            }
           }
       }
     });
   }
 
 }
-
-
-
-// var selecteddate = '07/29/1990';
-// var datestr = selecteddate.split('/');
-
-// var month = datestr[0];
-// var day = datestr[1];
-// var year = datestr[2];
-
-// var currentdate = new Date();
-// var cur_month = currentdate.getMonth() + 1;
-// var cur_day =currentdate.getDate();
-// var cur_year =currentdate.getFullYear();
-
-// if(cur_month==month && day >= cur_day)
-// {
-//  alert("in this month");
-// }
-
-//    else
-//    {
-//   alert("not in this month");
-//    }    ​
+​

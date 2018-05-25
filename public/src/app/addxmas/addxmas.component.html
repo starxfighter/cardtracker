@@ -6,7 +6,12 @@
     <h3>{{contact.postalcode}}</h3>
     <h3>{{contact.country}}</h3>
     <div class='track'>
-      <h3>{{contact.bdaytrk}}</h3>
+      <table>
+        <tr *ngFor='let t of tracking;let i = index'>
+            <td>{{t.status}}</td>
+            <td>{{t.date | date: "longDate"}}</td>
+          </tr>
+      </table>
     </div>
   </div>
   <div class='xmas'>

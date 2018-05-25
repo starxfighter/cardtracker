@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from './../http.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-edit',
@@ -52,22 +53,18 @@ export class EditComponent implements OnInit {
         this.updatecontact.state = data['contact'].cstate;
         this.updatecontact.postalcode = data['contact'].cp_code;
         this.updatecontact.country = data['contact'].cc_code;
-        const dt = new Date(data['contact'].mister_dob);
-        const day = dt.getDate() + 1;
-        const month = dt.getMonth() + 1;
-        const year = dt.getFullYear();
-        this.updatecontact.mrdob = (year + '-' + month + '-' + day);
-        const dta = new Date(data['contact'].misses_dob);
-        const daya = dta.getDate() + 1;
-        const montha = dta.getMonth() + 1;
-        const yeara = dta.getFullYear();
-        this.updatecontact.msdob = (yeara + '-' + montha + '-' + daya);
-        console.log('update msdob', this.updatecontact.msdob);
-        const dtb = new Date(data['contact'].anni_date);
-        const dayb = dtb.getDate() + 1;
-        const monthb = dtb.getMonth() + 1;
-        const yearb = dtb.getFullYear();
-        this.updatecontact.anidate = (yearb + '-' + monthb + '-' + dayb);
+        if (data['contact'].mister_dob != null) {
+          const tempmr = moment(data['contact'].mister_dob).add(1, 'd').format('YYYY-MM-DD');
+          this.updatecontact.mrdob = tempmr;
+        }
+        if (data['contact'].misses_dob != null ) {
+          const tempms = moment(data['contact'].misses_dob).add(1, 'd').format('YYYY-MM-DD');
+          this.updatecontact.msdob = tempms;
+        }
+        if (data['contact'].anni_date != null) {
+          const tempan = moment(data['contact'].anni_date).add(1, 'd').format('YYYY-MM-DD');
+          this.updatecontact.anidate = tempan;
+        }
       }
     });
   }

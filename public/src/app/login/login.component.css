@@ -12,6 +12,26 @@ h3{
 h2{
     text-align: center;
 }
+.errorchk{
+    border-style: solid;
+    border-width: 3px;
+    border-color: red;
+    margin-bottom: 10px;
+    margin-top: 2px;
+    display: block;
+    width: 640px;
+    height: 35px;
+}
+.goodchk{
+    border-style: solid;
+    border-width: 3px;
+    border-color: green;
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    margin-bottom:5px;
+    margin-top: 2px;
+}
 .cancel{
     border-radius: 10px;
     width: 200px;

@@ -43,10 +43,31 @@ table{
     border-width: 3px;
     border-radius: 5px;
 }
+.errorchk{
+    border-style: solid;
+    border-width: 3px;
+    border-color: red;
+    margin-bottom: 10px;
+    margin-top: 2px;
+    display: block;
+    width: 397px;
+    height: 35px;
+}
+.goodchk{
+    border-style: solid;
+    border-width: 3px;
+    border-color: green;
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    margin-bottom:5px;
+    margin-top: 2px;
+}
 label{
     display: inline-block;
     width: 399px;
     color: white;
+    margin-bottom: -16px;
 }
 input{
     display: block;

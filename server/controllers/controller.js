@@ -747,7 +747,7 @@ module.exports = {
 
     label: function(req, res){
         console.log('label incoming', req.body)
-        User.findOne({_id:req.session.uid}, function(err, user){
+        User.findOne({_id: req.session.uid}, function(err, user){
             if(err){
                 console.log("User not found")
                 for(var key in err.errors){
@@ -755,24 +755,38 @@ module.exports = {
                     }
                 res.json({error: err})   
             } else {
-                console.log('user found') 
-                console.log('passes id', req.params.id)
+                console.log('user found')
                 contact = user.contacts.id(req.params.id)
-                var url = 'https://api.shipengine.com/v1/labels -X POST \
-                -H "Content-type: application/json" \
-                -H "api-key: A1zfGsTEyGLJq67/8KtpxM0ZnzxutBoU1HiuGaznqY4" \
-                -d ' + '{"shipment": {"service_code": "usps_priority_mail","ship_to": {"name": "' + contact.cname + '","phone": " ","company_name": " ","address_line1": "' + contact.cstreet_addr + '","city_locality": "' + contact.city_locality + '","state_province": "' + contact.cstate + '","postal_code": "' + contact.cp_code + '","country_code": "US","address_residential_indicator": "No"},"ship_from": {"name": "' + user.name + '","phone": " ","company_name": " ","address_line1": "' + user.street_addr + '","city_locality": "' + user.city + '","state_province": "' + user.state + '","postal_code": "' + user.postal_code + '","country_code": "US","address_residential_indicator": "No"},"packages": [{"weight": {"value": 1.0,"unit": "ounce"}}]},"test_label": true,"is_return_label": false}'
-                console.log('url', url)
-                axios.get(url)
-                    .then(response => {
-                        console.log('label response', response)
-                    })
-                    .catch(error => {
-                        console.log('axios error', error)
-                        res.json({message: "Failed"})
-                    });
-            }
+                 console.log('Contact found');
+                res.json({contact:contact, user:user})
+            }       
         })
+        // User.findOne({_id:req.session.uid}, function(err, user){
+        //     if(err){
+        //         console.log("User not found")
+        //         for(var key in err.errors){
+        //             req.flash('user', err.errors[key].message);
+        //             }
+        //         res.json({error: err})   
+        //     } else {
+        //         console.log('user found') 
+        //         console.log('passes id', req.params.id)
+        //         contact = user.contacts.id(req.params.id)
+        //         var url = 'https://api.shipengine.com/v1/labels -X POST \
+        //         -H "Content-type: application/json" \
+        //         -H "api-key: A1zfGsTEyGLJq67/8KtpxM0ZnzxutBoU1HiuGaznqY4" \
+        //         -d ' + '{"shipment": {"service_code": "usps_priority_mail","ship_to": {"name": "' + contact.cname + '","phone": " ","company_name": " ","address_line1": "' + contact.cstreet_addr + '","city_locality": "' + contact.city_locality + '","state_province": "' + contact.cstate + '","postal_code": "' + contact.cp_code + '","country_code": "US","address_residential_indicator": "No"},"ship_from": {"name": "' + user.name + '","phone": " ","company_name": " ","address_line1": "' + user.street_addr + '","city_locality": "' + user.city + '","state_province": "' + user.state + '","postal_code": "' + user.postal_code + '","country_code": "US","address_residential_indicator": "No"},"packages": [{"weight": {"value": 1.0,"unit": "ounce"}}]},"test_label": true,"is_return_label": false}'
+        //         console.log('url', url)
+        //         axios.get(url)
+        //             .then(response => {
+        //                 console.log('label response', response)
+        //             })
+        //             .catch(error => {
+        //                 console.log('axios error', error)
+        //                 res.json({message: "Failed"})
+        //             });
+        //     }
+        // })
     },
     // end of exports
 }

@@ -1,3 +1,18 @@
-<p>
-  label works!
-</p>
+<div class='container'>
+  <button class='btn red waves-effect white-text' [routerLink]="['/home/list/contacts']">Cancel</button>
+  <h2>Print this page and cut out the labels to use on an envelope</h2>
+  <br>
+  <div class='shipfrom'>
+    <h3>{{user.name}}</h3>
+    <h4>{{user.street_addr}}</h4>
+    <h4>{{user.city}}, {{user.state}}  {{user.postal_code}}</h4>
+    <h4>{{user.country}}</h4>
+  </div>
+  <div class='shipto'>
+    <h3>{{contact.cname}}</h3>
+    <h4>{{contact.cstreet_addr}}</h4>
+    <h4>{{contact.city_locality}}, {{contact.cstate}}  {{contact.cp_code}}</h4>
+    <h4>{{contact.cc_code}}</h4>
+  </div>
+</div>
+

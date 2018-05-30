@@ -27,8 +27,12 @@
           <select class='browser-default' name='bdinfo.status' required [(ngModel)]="bdinfo.status" #status="ngModel"> 
               <option value="sent">Sent</option>
               <option value="received">Received</option>
-          </select> {{ status.errors | json }}
-        <label>Tracking Date: <input type="date" name="bdinfo.trkdate" required [(ngModel)]="bdinfo.trkdate" #trkdate="ngModel"/></label> {{ trkdate.errors | json }}
+          </select> 
+        <h6 class='errorchk' *ngIf="status.errors">{{ status.errors | json }}<i class='material-icons left'>remove_circle</i></h6>
+        <h6 class='goodchk' *ngIf="!status.errors"> <i class='material-icons left'>verified_user</i></h6>
+        <label>Tracking Date: <input type="date" name="bdinfo.trkdate" required [(ngModel)]="bdinfo.trkdate" #trkdate="ngModel"/></label> 
+        <h6 class='errorchk' *ngIf="trkdate.errors">{{ trkdate.errors | json }}<i class='material-icons left'>remove_circle</i></h6>
+        <h6 class='goodchk' *ngIf="!trkdate.errors"> <i class='material-icons left'>verified_user</i></h6>
         <div class='nav'>
           <button class='btn green waves-effect white-text' type='submit' name='action'>Submit<i class='material-icons right'>send</i></button>
           <button class='cancel red pulse white-text' [routerLink]="['/home/tracking', id, 'addbd']">Cancel</button>

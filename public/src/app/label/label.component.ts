@@ -9,7 +9,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class LabelComponent implements OnInit {
   id: String;
-  labelinfo: any;
+  user: any;
+  contact: any;
   message: any;
   constructor(
     private _httpService: HttpService,
@@ -22,6 +23,8 @@ export class LabelComponent implements OnInit {
       this.id = params.id;
     });
     this.message = [];
+    this.user = [];
+    this.contact = [];
     this.getLabel(this.id);
   }
 
@@ -34,6 +37,8 @@ export class LabelComponent implements OnInit {
         console.log('this.message', this.message);
       } else {
         console.log('display data', data);
+        this.user = data['user'];
+        this.contact = data['contact'];
       }
     });
   }

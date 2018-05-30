@@ -1,0 +1,37 @@
+.shipfrom{
+    text-transform: capitalize;
+    border-style: solid;
+    border-color: black;
+    border-width: 2px;
+    display: inline-block;
+    width: 300px;
+    padding: 5px;
+    margin-right: 40px;
+    border-radius: 5px;
+}
+.shipto{
+    text-transform: capitalize;
+    border-style: solid;
+    border-color: black;
+    border-width: 2px;
+    display: inline-block;
+    width: 300px;
+    padding: 5px;
+    border-radius: 5px;
+}
+.btn{
+    border-radius: 5px;
+}
+h2{
+    font-size: 24pt;
+}
+h3{
+    font-size: 12pt;
+    margin-bottom: 5px;
+    margin-top: 3px;
+}
+h4{
+    font-size: 11pt;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}

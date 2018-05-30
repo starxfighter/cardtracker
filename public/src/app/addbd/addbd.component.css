@@ -1,0 +1,80 @@
+.contact{
+    display: inline-block;
+    margin-right: 62px;
+    vertical-align: top;
+    width: 400px;
+    background-color: lightskyblue;
+    padding: 5px;
+    margin-left: 54px;
+    margin-top: 34px;
+}
+.bday{
+    vertical-align: top;
+    display: inline-block;
+    margin-top:208px;
+    width: 450px;
+    background-color: lightpink;
+    padding: 10px;
+}
+.info, .entry{
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+h1{
+    font-size: 20pt;
+}
+h3{
+    font-size: 14pt;
+}
+td{
+    border-style: bold;
+    border-width: 2px;
+    border-color: black;
+}
+table{
+    border-style: solid;
+    border-color: black;
+    border-width: 3px;
+    border-radius: 5px;
+}
+label{
+    display: inline-block;
+    width: 399px;
+    color: black;
+}
+input{
+    display: block;
+    width: 399px;
+    color: black;
+}
+.btn{
+    border-radius: 10px;
+    width: 200px;
+    margin-right: 30px;
+    margin-top: 10px;
+}
+.cancel{
+    border-radius: 10px;
+    margin-top: 10px;
+    width: 200px;
+    height: 40px;
+    color: white;
+    vertical-align: top;
+}
+.results{
+    overflow: scroll;
+    height: 300px;
+}
+.container{
+    background-color: #64b5f6;
+    width: 1032px;
+    height: 750px;
+    padding: 10px;
+}
+form{
+    padding: 5px;
+}

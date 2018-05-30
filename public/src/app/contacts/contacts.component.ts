@@ -38,10 +38,15 @@ export class ContactsComponent implements OnInit {
         console.log('this.contacts', this.contacts);
         for (let x = 0; x < this.users.contacts.length; x++) {
           console.log('in contacts for loop');
-          const temp = { name: '', id: '', status: ''};
+          const usvariations = ['usa', 'united states', 'america'];
+          const tempcountry = this.users.contacts[x].cc_code.toLowerCase();
+          const temp = { name: '', id: '', status: '', usflag: false};
           temp.name = this.users.contacts[x].cname;
           temp.id = this.users.contacts[x]._id;
           temp.status = this.users.contacts[x].validation;
+          if (usvariations.indexOf(tempcountry) > -1) {
+            temp.usflag = true;
+          }
           this.dcontacts.push(temp);
           console.log('dcontacts', this.dcontacts);
         }

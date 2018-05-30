@@ -1,31 +1,36 @@
-<h3>Edit this Contact:</h3>
-<div class='form'>
-  <form (submit) = 'updateContact(id)'>
-    <label>Name: <input type="text" name="updatecontact.name" minlength='2'[(ngModel)]="updatecontact.name" #name="ngModel"/></label> {{ name.errors | json }}
-    <label>Street Address: <input type="text" name="updatecontact.streetaddr" required minlength='5'[(ngModel)]="updatecontact.streetaddr" #streetaddr="ngModel"/></label> {{ streetaddr.errors | json }} 
-    <label>City/Locality: <input type="text" name="updatecontact.city" required minlength='5'[(ngModel)]="updatecontact.city" #city="ngModel"/></label> {{ city.errors | json }}  
-    <label>State: <input type="text" name="updatecontact.state" minlength='2' maxlength='2' [(ngModel)]="updatecontact.state" #state="ngModel"/></label> {{ state.errors | json }} 
-    <label>Postal Code: <input type="text" name="updatecontact.postalcode" required minlength='3'[(ngModel)]="updatecontact.postalcode" #postalcode="ngModel"/></label> {{ postalcode.errors | json }}
-    <label>Country: <input type="text" name="updatecontact.country" required minlength='3'[(ngModel)]="updatecontact.country" #country="ngModel"/></label> {{ country.errors | json }}    
-    <label>Mister Date of Birth: <input type="date" name="updatecontact.mrdob" minlength='3'[(ngModel)]="updatecontact.mrdob" #mrdob="ngModel"/></label> {{ mrdob.errors | json }}    
-    <label>Misses Date of Birth: <input type="date" name="updatecontact.msdob" minlength='3'[(ngModel)]="updatecontact.msdob" #msdob="ngModel"/></label> {{ msdob.errors | json }} 
-    <label>Anniversary Date: <input type="date" name="updatecontact.anidate" minlength='3'[(ngModel)]="updatecontact.anidate" #anidate="ngModel"/></label> {{ anidate.errors | json }} 
-    <h3 *ngIf='!name.errors'>
-      <h3 *ngIf='!streetaddr.errors'>
-        <h3 *ngIf='!city.errors'>
-          <h3 *ngIf='!state.errors'>
-            <h3 *ngIf='!postalcode.errors'>
-              <h3 *ngIf='!country.errors'>
-                  <input type='submit' value='Submit'/>
+<div class='container'>
+  <h2>Edit this Contact:</h2>
+  <div class='entry'>
+    <form class='form z-depth-5 black-text' (submit) = 'updateContact(id)'>
+      <label>Name: <input type="text" name="updatecontact.name" minlength='2'[(ngModel)]="updatecontact.name" #name="ngModel"/></label> {{ name.errors | json }}
+      <label>Street Address: <input type="text" name="updatecontact.streetaddr" required minlength='5'[(ngModel)]="updatecontact.streetaddr" #streetaddr="ngModel"/></label> {{ streetaddr.errors | json }} 
+      <label>City/Locality: <input type="text" name="updatecontact.city" required minlength='5'[(ngModel)]="updatecontact.city" #city="ngModel"/></label> {{ city.errors | json }}  
+      <label>State: <input type="text" name="updatecontact.state" minlength='2' maxlength='2' [(ngModel)]="updatecontact.state" #state="ngModel"/></label> {{ state.errors | json }} 
+      <label>Postal Code: <input type="text" name="updatecontact.postalcode" required minlength='3'[(ngModel)]="updatecontact.postalcode" #postalcode="ngModel"/></label> {{ postalcode.errors | json }}
+      <label>Country: <input type="text" name="updatecontact.country" required minlength='3'[(ngModel)]="updatecontact.country" #country="ngModel"/></label> {{ country.errors | json }}    
+      <label>Mister Date of Birth: <input type="date" name="updatecontact.mrdob" minlength='3'[(ngModel)]="updatecontact.mrdob" #mrdob="ngModel"/></label> {{ mrdob.errors | json }}    
+      <label>Misses Date of Birth: <input type="date" name="updatecontact.msdob" minlength='3'[(ngModel)]="updatecontact.msdob" #msdob="ngModel"/></label> {{ msdob.errors | json }} 
+      <label>Anniversary Date: <input type="date" name="updatecontact.anidate" minlength='3'[(ngModel)]="updatecontact.anidate" #anidate="ngModel"/></label> {{ anidate.errors | json }} 
+      <div class='nav'>
+        <h3 *ngIf='!name.errors'>
+          <h3 *ngIf='!streetaddr.errors'>
+            <h3 *ngIf='!city.errors'>
+              <h3 *ngIf='!state.errors'>
+                <h3 *ngIf='!postalcode.errors'>
+                  <h3 *ngIf='!country.errors'>
+                      <!-- <input type='submit' value='Submit'/> -->
+                      <button class='btn waves-effect white-text' type='submit' name='action'>Submit<i class='material-icons right'>send</i></button>
+                  </h3>
+                </h3>
               </h3>
             </h3>
           </h3>
         </h3>
-      </h3>
-    </h3>
-    <button [routerLink]="['/home/list/contacts']">Cancel</button>
-  </form>
+        <button class='btn red waves-effect white-text' [routerLink]="['/home/list/contacts']">Cancel</button>
+      </div>
+    </form>
+  </div>
 </div>
-<div *ngFor='let e of message'>
+<div class='error' *ngFor='let e of message'>
     {{e}}
 </div>

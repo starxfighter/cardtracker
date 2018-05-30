@@ -15,6 +15,8 @@ module.exports = function(app) {
 
     app.put('/update/:id', controller.update)
 
+    app.get('/label/:id', controller.label)
+
     app.delete('/delete/:id', controller.delete)
 
     app.put('/addbd/:id', controller.addBday)

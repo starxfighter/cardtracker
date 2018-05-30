@@ -1,27 +1,31 @@
-<div class='results'>  
-  <table>
-    <tr>
-        <th>Name</th>
-        <th>ID</th>
-        <th>Address Status</th>
-        <th>Contact Actions</th>
-        <th>Special Features</th>
-      </tr>
-    <tr *ngFor='let c of dcontacts;let i = index'>
-      <td>{{c.name}}</td>
-      <td>{{c.id}}</td>
-      <td>{{c.status}}</td>
-      <td>
-        <button [routerLink]="['/home/list/edit', c.id]">Edit</button>
-        <button (click)='destroyUser(c.id)'>Delete</button>
-      </td>
-      <td>
-          <button [routerLink]="['/home/tracking', c.id]">Card Sent/Received</button>
-          <button (click)='printLabel(c.id)'>Print Labels</button>
-        </td>
-    </tr>
-  </table>
+<div class='container'>
+  <div class='results z-depth-5'>  
+    <table class='striped centered z-depth-5'>
+      <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address Status</th>
+            <th>Contact Actions</th>
+            <th>Special Features</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let c of dcontacts;let i = index'>
+          <td>{{c.name}}</td>
+          <td>{{c.status}}</td>
+          <td>
+            <button class='btn blue waves-effect white-text' [routerLink]="['/home/list/edit', c.id]">Edit<i class='material-icons right'>build</i></button>
+            <button class='btn blue waves-effect white-text' (click)='destroyUser(c.id)'>Delete<i class='material-icons right'>delete_forever</i></button>
+          </td>
+          <td>
+              <button class='btn blue waves-effect white-text' [routerLink]="['/home/tracking', c.id]">Card Sent/Received<i class='material-icons right'>track_changes</i></button>
+              <button *ngIf='c.usflag' class='btn blue waves-effect white-text' [routerLink]="['/home/list/label', c.id]">Print Labels<i class='material-icons right'>print</i></button>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
-<div *ngFor='let e of message'>
+<div class='error' *ngFor='let e of message'>
   {{e}}
 </div>

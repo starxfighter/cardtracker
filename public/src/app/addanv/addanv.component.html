@@ -1,30 +1,42 @@
-<div class='contact'>
-    <h1>{{contact.name}}</h1>
-    <h3>{{contact.streetaddr}}</h3>
-    <h3>{{contact.city}}</h3>
-    <h3>{{contact.state}}</h3>
-    <h3>{{contact.postalcode}}</h3>
-    <h3>{{contact.country}}</h3>
-    <div class='track'>
-      <table>
-        <tr *ngFor='let t of tracking;let i = index'>
-            <td>{{t.status}}</td>
-            <td>{{t.date | date: "longDate"}}</td>
+<div class='container'>
+  <div class='contact col s6'>
+    <div class='info z-depth-5'>
+      <h1>{{contact.name}}</h1>
+      <h3>{{contact.streetaddr}}</h3>
+      <h3>{{contact.city}}</h3>
+      <h3>{{contact.state}}</h3>
+      <h3>{{contact.postalcode}}</h3>
+      <h3>{{contact.country}}</h3>
+      <h3>Address status: {{contact.status}}</h3>
+    </div>
+    <div class='results z-depth-5'>
+      <table class='striped centered z-depth-5'>
+        <tbody>
+          <tr *ngFor='let t of tracking;let i = index'>
+              <td>{{t.status}}</td>
+              <td>{{t.date | date: "longDate"}}</td>
           </tr>
+        </tbody>
       </table>
     </div>
   </div>
-  <div class='annv'>
-    <form (submit) = 'addAntrack(id)'>
-      <label>Tracking Status: <select name='aninfo.status' required [(ngModel)]="aninfo.status" #status="ngModel"> 
+  <div class='annv col s6'>
+    <div class='entry z-depth-5'>
+      <form (submit) = 'addAntrack(id)'>
+        <label>Tracking Status: </label>
+        <select class='browser-default' name='aninfo.status' required [(ngModel)]="aninfo.status" #status="ngModel"> 
           <option value="sent">Sent</option>
           <option value="received">Received</option>
-      </select></label> {{ status.errors | json }}
-      <label>Tracking Date: <input type="date" name="aninfo.trkdate" required [(ngModel)]="aninfo.trkdate" #trkdate="ngModel"/></label> {{ trkdate.errors | json }}
-      <input type='submit' value='Submit'/>
-      <button [routerLink]="['/home/tracking', id, 'addbd']">Cancel</button>
-    </form>
+        </select> {{ status.errors | json }}
+        <label>Tracking Date: <input type="date" name="aninfo.trkdate" required [(ngModel)]="aninfo.trkdate" #trkdate="ngModel"/></label> {{ trkdate.errors | json }}
+        <div class='nav'>
+            <button class='btn green waves-effect white-text' type='submit' name='action'>Submit<i class='material-icons right'>send</i></button>
+          <button class='cancel red pulse white-text' [routerLink]="['/home/tracking', id, 'addbd']">Cancel</button>
+        </div>
+      </form>
+    </div>
   </div>
-  <div *ngFor='let e of message'>
-      {{e}}
-  </div>
+</div>
+<div class='error' *ngFor='let e of message'>
+  {{e}}
+</div>

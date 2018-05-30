@@ -1,7 +1,18 @@
-<h1>Welcome to Card Tracker</h1>
-
-<div class='navbar'>
-  <button [routerLink]="['/home/register']">Register</button>
-  <h1>|</h1>  
- <button [routerLink]="['/home/login']">Login</button>
+<div class='container'>
+  <h1 class='red accent-4'>Welcome to Card Tracker</h1>
+  <div class='col s4 xmas center-align'>
+    <div class='xbackgrd'>
+      <button class='red pulse' [routerLink]="['/home/register']">Register</button>
+    </div>
+  </div>
+  <div class='col s4 bday center-align'>
+      <div class='navbar'>
+          <h2><--OR--></h2>  
+      </div>
+  </div>
+  <div class='col s4 anv center-align'>
+    <div class='abackgrd'>
+      <button class='green pulse' [routerLink]="['/home/login']">Login</button>
+    </div>
+  </div>
 </div>

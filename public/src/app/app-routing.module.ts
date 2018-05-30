@@ -13,6 +13,8 @@ import { AddanvComponent } from './addanv/addanv.component';
 import { AddxmasComponent } from './addxmas/addxmas.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { TrackingComponent } from './tracking/tracking.component';
+import { ReportComponent } from './report/report.component';
+import { LabelComponent } from './label/label.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent, children: [
@@ -20,10 +22,12 @@ const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'register', component: RegisterComponent},
     {path: 'dashboard', component: DashboardComponent},
+    {path: 'report', component: ReportComponent},
     {path: 'list', component: ListComponent, children: [
       {path: 'contacts', component: ContactsComponent},
       {path: 'add', component: AddComponent},
-      {path: 'edit/:id', component: EditComponent}
+      {path: 'edit/:id', component: EditComponent},
+      {path: 'label/:id', component: LabelComponent}
     ]},
     {path: 'tracking/:id', component: TrackingComponent, children: [
       {path: 'addbd', component: AddbdComponent},

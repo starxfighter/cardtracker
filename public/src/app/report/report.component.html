@@ -1,0 +1,35 @@
+<div class='container'>
+  <h1 class='blue-grey white-text'>Contact Report</h1>
+  <button class='btn red accent-3 waves-effect white-text' [routerLink]="['/home/dashboard']">Cancel</button>
+  <div class='contact z-depth-5'>
+    <div class='cdetail' *ngFor='let c of dcontacts'>
+        <h4>{{c.name}}</h4>
+        <h5>{{c.streetaddr}}, {{c.city}}, {{c.state}} {{c.postalcode}}</h5>
+        <h4>Birthday Tracking</h4>
+        <h6 *ngIf='c.bdtracking.length < 1'>
+          <p>No Data</p>
+        </h6>
+        <div class='bdinfo'*ngFor='let b of c.bdtracking'>
+          <h6>{{b.status}}</h6>
+          <h6>{{b.date | date: "longDate"}}</h6>
+        </div>
+        <h4>Anniversary Tracking</h4>
+        <h6 *ngIf='c.antracking.length < 1'>
+            <p>No Data</p>
+          </h6>
+        <div class='aninfo'*ngFor='let a of c.antracking'>
+            <h6>{{a.status}}</h6>
+            <h6>{{a.date | date: "longDate"}}</h6>
+        </div> 
+        <h4>Xmas Tracking</h4>
+        <h6 *ngIf='c.xmtracking.length < 1'>
+            <p>No Data</p>
+          </h6>
+        <div class='xminfo'*ngFor='let x of c.xmtracking'>
+            <h6>{{x.status}}</h6>
+            <h6>{{x.date | date: "longDate"}}</h6>
+        </div>  
+        <hr> 
+    </div>
+  </div>
+</div>

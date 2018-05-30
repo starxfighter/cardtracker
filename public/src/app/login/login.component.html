@@ -1,16 +1,21 @@
-<h3>Login</h3>
-<div class='form'>
-  <form (submit) = 'loginUser()'>
-    <label>E-Mail: <input type="email" name="newuser.email" required minlength='8'[(ngModel)]="newuser.email" #email="ngModel"/></label> {{ email.errors | json }} 
-    <label>Password: <input type="password" name="newuser.password" required minlength='8'[(ngModel)]="newuser.password" #password="ngModel"/></label> {{ password.errors | json }}   
-    <h3 *ngIf="!email.errors">
-      <h3 *ngIf="!password.errors">
-        <input type='submit' value='Submit'/>
-      </h3> 
-    </h3> 
-    <button [routerLink]="['/home/welcome']">Cancel</button>
-  </form>
+<div class='container'>
+  <h2>Login</h2>
+  <div class='form'>
+    <form (submit) = 'loginUser()'>
+      <label>E-Mail: <input type="email" name="newuser.email" required minlength='8'[(ngModel)]="newuser.email" #email="ngModel"/></label> {{ email.errors | json }} 
+      <label>Password: <input type="password" name="newuser.password" required minlength='8'[(ngModel)]="newuser.password" #password="ngModel"/></label> {{ password.errors | json }}   
+      <div class='btns'>
+        <h3 *ngIf="!email.errors">
+          <h3 *ngIf="!password.errors">
+            <button class='btn waves-effect white-text' type='submit' name='action'>Submit<i class='material-icons right'>send</i></button>
+            <!-- <input class='sub green white-text' type='submit' value='Submit'/> -->
+          </h3> 
+        </h3> 
+        <button class='cancel red pulse white-text' [routerLink]="['/home/welcome']">Cancel</button>
+      </div>
+    </form>
+  </div>
 </div>
-<div *ngFor='let e of message'>
+<div class='error' *ngFor='let e of message'>
   {{e}}
 </div>

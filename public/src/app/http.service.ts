@@ -16,6 +16,10 @@ export class HttpService {
     return this._http.get('/' + id);
   }
 
+  generateLabel(id) {
+    return this._http.get('/label/' + id);
+  }
+
   addContact(newcontact) {
     return this._http.post('/new', newcontact);
   }
@@ -46,10 +50,10 @@ export class HttpService {
   login(newuser) {
     return this._http.post('/login', newuser);
   }
+  // front end routes
   home() {
     return this._http.get('/home');
   }
-
   add() {
     return this._http.get('/new');
   }
@@ -59,7 +63,9 @@ export class HttpService {
   edit(id) {
     return this._http.get('/edit/' + id);
   }
-
+  label(id) {
+    return this._http.get('/label/' + id);
+  }
   tracking(id) {
     return this._http.get('/tracking/' + id);
   }

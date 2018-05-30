@@ -1,0 +1,32 @@
+.contact{
+    overflow: scroll;
+    height: 500px;
+    padding-left: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+}
+h4{
+    font-size: 16pt;
+}
+h5{
+    font-size: 14pt;
+}
+h6{
+    font-size: 12pt;
+    display: inline-block;
+    width: 200px;
+    margin: 0px;
+}
+h1{
+    margin-top: -70px;
+    text-align: center;
+}
+p{
+    margin: 0px;
+}
+button{
+    margin-top:10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}

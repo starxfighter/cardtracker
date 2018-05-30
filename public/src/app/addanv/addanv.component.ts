@@ -30,6 +30,7 @@ export class AddanvComponent implements OnInit {
       state: '',
       postalcode: '',
       country: '',
+      status: '',
       anvtrk: ''
     };
     this.aninfo = {
@@ -57,6 +58,7 @@ export class AddanvComponent implements OnInit {
         this.contact.state = data['contact'].cstate;
         this.contact.postalcode = data['contact'].cp_code;
         this.contact.country = data['contact'].cc_code;
+        this.contact.status = data['contact'].validation;
         this.contact.anvtrk = data['contact'].anniversary_track;
         for (let x = 0; x < this.contact.anvtrk.length; x++) {
           const temp = {status: '', date: ''};

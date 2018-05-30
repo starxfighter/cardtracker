@@ -1,0 +1,29 @@
+table{
+    border-style: solid;
+    border-color: black;
+    border-width: 3px;
+    border-radius: 5px;
+}
+h1{
+    text-align: center;
+    margin-top: -94px;
+}
+button{
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 40px;
+    border-radius: 5px;
+}
+td{
+    border-top-style: solid;
+    border-top-color: black;
+    border-top-width: 2px;
+}
+h3{
+    display: inline-block;
+    width: 358px;
+}
+h5{
+    display: inline-block;
+    width: 670px;
+}

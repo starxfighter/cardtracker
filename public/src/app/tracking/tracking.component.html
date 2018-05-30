@@ -1,10 +1,10 @@
-<h1>Card Tracking</h1>
-
-<div class='navbar'>
-    <button [routerLink]="['/home/tracking/', id, 'addbd']">Add Birthday Tracking</button>
-    <button [routerLink]="['/home/tracking/', id, 'addanv']">Add Anniversary Tracking</button>
-    <button [routerLink]="['/home/tracking/', id, 'addxmas']">Add Christmas Tracking</button> 
-    <button [routerLink]="['/home/list/contacts']">Cancel</button>
+<div class='container'>
+    <h1 class='blue-grey white-text'>Card Tracking</h1>
+    <div class='navbar'>
+        <button class='btn blue waves-effect white-text' [routerLink]="['/home/tracking/', id, 'addbd']">Add Birthday Tracking<i class='material-icons right'>cake</i></button>
+        <button class='btn blue waves-effect white-text' [routerLink]="['/home/tracking/', id, 'addanv']">Add Anniversary Tracking<i class='material-icons right'>add_alert</i></button>
+        <button class='btn blue waves-effect white-text' [routerLink]="['/home/tracking/', id, 'addxmas']">Add Christmas Tracking<i class='material-icons right'>card_giftcard</i></button> 
+        <button class='btn red waves-effect white-text' [routerLink]="['/home/list/contacts']">Cancel<i class='material-icons right'>group</i></button>
+    </div>
+    <router-outlet></router-outlet>
 </div>
-
-<router-outlet></router-outlet>

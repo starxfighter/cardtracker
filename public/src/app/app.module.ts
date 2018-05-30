@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MaterializeModule } from 'angular2-materialize';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +20,8 @@ import { HttpService } from './http.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ContactsComponent } from './contacts/contacts.component';
 import { TrackingComponent } from './tracking/tracking.component';
+import { ReportComponent } from './report/report.component';
+import { LabelComponent } from './label/label.component';
 
 @NgModule({
   declarations: [
@@ -35,13 +38,16 @@ import { TrackingComponent } from './tracking/tracking.component';
     AddanvComponent,
     AddxmasComponent,
     ContactsComponent,
-    TrackingComponent
+    TrackingComponent,
+    ReportComponent,
+    LabelComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    MaterializeModule,
   ],
   providers: [HttpService],
   bootstrap: [AppComponent]

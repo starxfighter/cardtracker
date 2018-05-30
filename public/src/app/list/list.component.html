@@ -1,8 +1,9 @@
-<h1>Contact List</h1>
+<div class='container'>
+  <h1 class='blue-grey white-text'>Contact List</h1>
+  <div class='navbar'>
+    <button class='btn blue waves-effect white-text' [routerLink]="['/home/list/add']">Add New Contact<i class='material-icons right'>group_add</i></button>
+    <button class='btn blue waves-effect white-text' [routerLink]="['/home/dashboard']">Dashboard<i class='material-icons right'>chrome_reader_mode</i></button>
+  </div>
 
-<div class='navbar'>
-  <button [routerLink]="['/home/list/add']">Add New Contact</button>
-  <button [routerLink]="['/home/dashboard']">Dashboard</button>
+  <router-outlet></router-outlet>
 </div>
-
-<router-outlet></router-outlet>

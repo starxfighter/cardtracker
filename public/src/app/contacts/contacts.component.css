@@ -1,0 +1,27 @@
+.error{
+    color: red;
+}
+.container{
+    width: 1270px;
+}
+.results{
+    overflow: scroll;
+    height: 500px;
+}
+button{
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 40px;
+    border-radius: 5px;
+}
+table{
+    border-style: solid;
+    border-color: black;
+    border-width: 3px;
+    border-radius: 5px;
+}
+td{
+    border-top-style: solid;
+    border-top-color: black;
+    border-top-width: 2px;
+}

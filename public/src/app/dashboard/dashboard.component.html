@@ -1,19 +1,27 @@
-<h1>Card Tracker Dashboard</h1>
-<div class='events'>
-  <h3>Upcoming Events</h3>
-  <table>
-    <tr>
-        <th>Name</th>
-        <th>Date</th>
-        <th>Event</th>
-    </tr>
-    <tr *ngFor='let u of uevents;let i = index'>
-      <td>{{u.name}}</td>
-      <td>{{u.date| date: "longDate"}}</td>
-      <td>{{u.event}}</td>
-    </tr>
-  </table>
-</div>
-<div class='nav'>
-  <button [routerLink]="['/home/list']">Continue</button>
+<div class='container'>
+  <h1 class='blue-grey white-text'>Card Tracker Dashboard</h1>
+  <div class='events'>
+    <h3>Upcoming Events</h3>
+    <h5>(events happening in the next three months)</h5>
+    <div class='nav'>
+        <button class='btn blue waves-effect white-text' [routerLink]="['/home/list']">Continue<i class='material-icons right'>group</i></button>
+        <button class='btn green accent-3 waves-effect white-text' [routerLink]="['/home/report']">Report<i class='material-icons right'>assignment</i></button>
+      </div>
+    <table class='striped centered z-depth-5'>
+      <thead>
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Event</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let u of uevents;let i = index'>
+          <td>{{u.name}}</td>
+          <td>{{u.date| date: "longDate"}}</td>
+          <td>{{u.event}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
